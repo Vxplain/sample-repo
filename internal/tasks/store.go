@@ -47,3 +47,17 @@ func (s *Store) List() []Task {
 	copy(result, s.tasks)
 	return result
 }
+
+// ListPage is a draft API. The final behavior for invalid bounds is undecided.
+func (s *Store) ListPage(offset, limit int) []Task {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	if offset >= len(s.tasks) {
+		return nil
+	}
+	end := min(offset+limit, len(s.tasks))
+	result := make([]Task, end-offset)
+	copy(result, s.tasks[offset:end])
+	return result
+}
