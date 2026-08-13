@@ -55,8 +55,10 @@ func (s *Store) Complete(id int) (Task, error) {
 
 	for i := range s.tasks {
 		if s.tasks[i].ID == id {
-			s.tasks[i].Done = true
-			return s.tasks[i], nil
+			updated := s.tasks[i]
+			updated.Done = true
+			s.tasks[i] = updated
+			return updated, nil
 		}
 	}
 	return Task{}, ErrTaskNotFound
