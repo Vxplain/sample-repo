@@ -1,6 +1,6 @@
 # Sample Task Service
 
-This repository is a stable fixture for testing pull request review tools. It contains a small Go service and intentionally varied pull requests.
+This repository is an experimental fixture for testing conflict resolution in pull request review tools.
 
 ## Run
 
