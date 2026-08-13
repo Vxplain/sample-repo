@@ -51,3 +51,11 @@ jobs:
     steps:
       - run: sleep 300
       - run: echo "Slow fixture check passed"
+
+  approval-gate:
+    name: Approval gate
+    if: contains(github.event.pull_request.labels.*.name, 'check:pending')
+    environment: fixture-approval
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Fixture approval received"
