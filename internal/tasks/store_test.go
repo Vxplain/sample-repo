@@ -40,3 +40,24 @@ func TestStoreRejectsEmptyTitle(t *testing.T) {
 		t.Fatalf("Add() error = %v; want %v", err, ErrEmptyTitle)
 	}
 }
+
+func TestStoreComplete(t *testing.T) {
+	store := NewStore()
+	task, err := store.Add("ship fixture")
+	if err != nil {
+		t.Fatalf("Add() error = %v", err)
+	}
+
+	completed, err := store.Complete(task.ID)
+	if err != nil {
+		t.Fatalf("Complete() error = %v", err)
+	}
+	if !completed.Done {
+		t.Fatal("Complete() returned an incomplete task")
+	}
+
+	_, err = store.Complete(999)
+	if !errors.Is(err, ErrTaskNotFound) {
+		t.Fatalf("Complete() error = %v; want %v", err, ErrTaskNotFound)
+	}
+}

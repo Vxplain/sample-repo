@@ -7,6 +7,7 @@ import (
 )
 
 var ErrEmptyTitle = errors.New("task title cannot be empty")
+var ErrTaskNotFound = errors.New("task not found")
 
 type Task struct {
 	ID    int    `json:"id"`
@@ -46,4 +47,19 @@ func (s *Store) List() []Task {
 	result := make([]Task, len(s.tasks))
 	copy(result, s.tasks)
 	return result
+}
+
+func (s *Store) Complete(id int) (Task, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	for i := range s.tasks {
+		if s.tasks[i].ID == id {
+			updated := s.tasks[i]
+			updated.Done = true
+			s.tasks[i] = updated
+			return updated, nil
+		}
+	}
+	return Task{}, ErrTaskNotFound
 }
