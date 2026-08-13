@@ -1,6 +1,6 @@
 # Sample Task Service
 
-This repository is a stable fixture for testing pull request review tools. It contains a small Go service and intentionally varied pull requests.
+This repository is the canonical fixture for testing VX pull request review behavior. It contains a small Go service and deliberately varied pull requests.
 
 ## Run
 
